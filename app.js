@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 var app = express();
 
 
+
 mongoose.connect('',{
     useNewUrlParser: true,
     useUnifiedTopology:true
@@ -25,8 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
+const verifyAcessToken = require('./routes/middleware/verifyAcessTokenMiddleware')
+app.use('/',verifyAcessToken, indexRouter);
 app.use('/users', usersRouter);
 
 module.exports = app;
