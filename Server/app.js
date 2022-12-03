@@ -21,6 +21,7 @@ mongoose.connect('',{
 })
 
 app.use(logger('dev'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -29,6 +30,9 @@ const verifyAcessToken = require('./routes/middleware/verifyAcessTokenMiddleware
 app.use('/users', usersRouter);
 app.use('/crypto', cryptoRouter);
 app.use('/',verifyAcessToken, indexRouter);
+
+
+
 
 
 module.exports = app;
