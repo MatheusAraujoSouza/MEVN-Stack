@@ -5,12 +5,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var cryptoRouter = require('./routes/crypto');
 
 const cors = require('cors')
 const mongoose = require('mongoose')
 var app = express();
-
-
 
 mongoose.connect('',{
     useNewUrlParser: true,
@@ -27,7 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 const verifyAcessToken = require('./routes/middleware/verifyAcessTokenMiddleware')
-app.use('/',verifyAcessToken, indexRouter);
 app.use('/users', usersRouter);
+app.use('/crypto', cryptoRouter);
+app.use('/',verifyAcessToken, indexRouter);
+
 
 module.exports = app;
