@@ -6,7 +6,19 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const cors = require('cors')
+const mongoose = require('mongoose')
 var app = express();
+
+
+mongoose.connect('',{
+    useNewUrlParser: true,
+    useUnifiedTopology:true
+}).then(()=>{
+    console.log("Connection OK")
+}).catch((err)=>{
+    console.log(err)
+})
 
 app.use(logger('dev'));
 app.use(express.json());
