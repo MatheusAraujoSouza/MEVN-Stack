@@ -6,19 +6,19 @@
       <div class="errorMessage" v-if="errorMessage">{{errorMessage}}</div>
         <div class="field-area">
           <div for="input-username" style="padding-right:10px;">Username</div>
-          <input type="text" :class="{'error':rules.username}"  v-model="username" placeholder="your user name">
+          <input type="text" :class="{'error':rules.username}"  v-model="form.username" placeholder="your user name">
             <span v-show="rules.username">{{rules.username}}</span>
         </div>
 
         <div class="field-area">
           <div for="input-username" style="padding-right:10px;">Password</div>
-          <input type="text"  v-model="password" placeholder="your user name">
+          <input type="text"  v-model="form.password" placeholder="your user name">
           <span v-show="rules.password">{{rules.password}}</span>
         </div>
 
         <div class="field-area">
           <div for="input-username" style="padding-right:10px;">accessLevel</div>
-          <input type="text"   v-model="accessLevel" placeholder="your user name">
+          <input type="text"   v-model="form.accessLevel" placeholder="your user name">
           <span v-show="rules.accessLevel">{{rules.accessLevel}}</span>
         </div>
 
@@ -63,9 +63,15 @@ export default {
     }
     },
     async onSubmit(){
+      console.log('entrouuuuu')
+      console.log(this.form)
+      console.log(apiPublic)
       try{
-        if(!this.validate()) return;
-        await apiPublic.post('/user',this.form)
+        if(this.validate()) return;
+        console.log('passouuu do validade')
+
+        console.log(this.form);
+        await apiPublic.post('/users',this.form)
         this.$router.push('/login')
 
       }catch(error){

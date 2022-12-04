@@ -29,6 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 const verifyAcessToken = require('./routes/middleware/verifyAcessTokenMiddleware')
 app.use('/users', usersRouter);
 app.use('/crypto', cryptoRouter);
-app.use('/', indexRouter);
+app.use('/',verifyAcessToken, indexRouter);
 
 module.exports = app;
