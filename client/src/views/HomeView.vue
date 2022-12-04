@@ -6,16 +6,25 @@
       <div class="errorMessage" v-if="errorMessage">{{errorMessage}}</div>
         <div class="field-area">
           <div for="input-username" style="padding-right:10px;">Username</div>
-          <input type="text"  id="input-username" v-model="username" placeholder="your user name">
+          <input type="text" :class="{'error':rules.username}"  v-model="username" placeholder="your user name">
+            <span v-show="rules.username">{{rules.username}}</span>
         </div>
 
         <div class="field-area">
           <div for="input-username" style="padding-right:10px;">Password</div>
-          <input type="text"  id="input-username" v-model="password" placeholder="your user name">
+          <input type="text"  v-model="password" placeholder="your user name">
+          <span v-show="rules.password">{{rules.password}}</span>
         </div>
 
         <div class="field-area">
-            <button type="submit">Register</button>
+          <div for="input-username" style="padding-right:10px;">accessLevel</div>
+          <input type="text"   v-model="accessLevel" placeholder="your user name">
+          <span v-show="rules.accessLevel">{{rules.accessLevel}}</span>
+        </div>
+
+
+        <div class="field-area">
+            <button click="onSubmit" type="submit">Register</button>
         </div>
 
         <p>
@@ -30,20 +39,40 @@
 
 <script>
 
-
+import {apiPublic} from '../services/api'
 export default {
   data:()=>({
     errorMessage:null,
-    
-    username: null,
-    password: null,
-    accessLevel: null,
-  
-
-  
+    form:{
+      username: null,
+      password: null,
+      accessLevel: null,
+    },
+    rules:{
+      username: null,
+      password: null,
+      accessLevel: null,
+    }
 }),
   methods:{
-    onSubmit(){
+    validate(){
+      this.rules={
+      username: !this.form.username? " Required field":false,
+      password: !this.form.password? " Required field":false,
+      accessLevel: !this.form.accessLevel? " Required field":false,
+    }
+    },
+    async onSubmit(){
+      try{
+        if(!this.validate()) return;
+        await apiPublic.post('/user',this.form)
+        this.$router.push('/login')
+
+      }catch(error){
+        console.log(error)
+      }
+
+
     }
 
   }
@@ -54,5 +83,6 @@ export default {
 <style>
 .field-area{
   display: flex;
+  margin: 20px;
 }
 </style>
