@@ -29,11 +29,12 @@ router.post('/', async function(req, res, next) {
 router.post('/authenticate', async function(req, res, next) {
   try{
     const user = await Users.findOne({
-      username: req.body.username
+      username: req.body.username,
     })
     if(!user || !bcrypt.compareSync(req.body.password, user.password)){
       return res.status(400).json("Unable to authenticate the user with the entered data")
     }
+
 
     const token = jwt.sign({
       username:user.username

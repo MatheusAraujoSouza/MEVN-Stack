@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="login">
     <img src="../assets/niffler.png">
    <div  id="formLogin">
     <form @submit.prevent="onSubmit">
@@ -17,20 +17,8 @@
         </div>
 
         <div class="field-area">
-          <div for="input-username" style="padding-right:10px;">accessLevel</div>
-          <input type="text"   v-model="form.accessLevel" placeholder="your user name">
-          <span v-show="rules.accessLevel">{{rules.accessLevel}}</span>
+            <button @click="onSubmit" type="submit">Login</button>
         </div>
-
-
-        <div class="field-area">
-            <button click="onSubmit" type="submit">Register</button>
-        </div>
-
-        <p>
-          <router-link to="/login">already registered</router-link>
-        </p>
-
 
     </form>
    </div>
@@ -46,7 +34,6 @@ export default {
     form:{
       username: null,
       password: null,
-      accessLevel: null,
     },
     rules:{
       username: null,
@@ -59,15 +46,15 @@ export default {
       this.rules={
       username: !this.form.username? " Required field":false,
       password: !this.form.password? " Required field":false,
-      accessLevel: !this.form.accessLevel? " Required field":false,
     }
     },
     async onSubmit(){
-
       try{
         if(this.validate()) return;
-        await apiPublic.post('/users',this.form)
-        this.$router.push('/login')
+        const response = await apiPublic.post('/users/authenticate',this.form)
+        localStorage.setItem('token',response.data.token)
+        localStorage.setItem('username',response.data.username)
+        this.$router.push("/secreatArea")
 
       }catch(error){
         console.log(error)

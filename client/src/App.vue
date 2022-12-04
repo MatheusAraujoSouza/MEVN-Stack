@@ -2,13 +2,27 @@
   <div id="app">
     <div align="center" class="container">
       <div class="header">
-        <button class="btn-logout">SAIR</button>
+        <button class="btn-logout" v-if="authenticated()" @click="logout">SAIR</button>
       </div>
     </div>
     <router-view/>
   </div>
 </template>
 
+
+<script>
+export default {
+  methods:{
+    logout(){
+      localStorage.clear()
+      this.$router.push('/')
+    },
+    authenticated(){
+      return !!localStorage.token
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
